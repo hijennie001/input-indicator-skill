@@ -20,11 +20,31 @@
 
 ```bash
 # 方式一：双击运行
-scripts/启动指示牌.bat
+scripts/启动指示牌.bat        # 或 scripts/qidong_zhishipai.bat（纯英文名，制作快捷方式更稳）
 
-# 方式二：命令行
-pythonw scripts/input_indicator.pyw
+# 方式二：命令行（注意先 cd 到 scripts 目录，否则 pythonw 找不到文件也不会报错）
+cd scripts
+pythonw input_indicator.pyw
 ```
+
+## 创建桌面快捷方式（Windows）
+
+用 PowerShell 一键创建：
+
+```powershell
+$desktop = [Environment]::GetFolderPath('Desktop')
+$target = 'C:\path\to\input-indicator-skill\scripts\qidong_zhishipai.bat'
+$shortcutPath = Join-Path $desktop 'InputIndicator.lnk'
+
+$shell = New-Object -ComObject WScript.Shell
+$lnk = $shell.CreateShortcut($shortcutPath)
+$lnk.TargetPath = $target
+$lnk.WorkingDirectory = Split-Path $target
+$lnk.IconLocation = 'C:\Windows\System32\imageres.dll,109'
+$lnk.Save()
+```
+
+将 `$target` 换成你本机的实际路径即可。推荐用 `qidong_zhishipai.bat`（纯英文文件名）而不是中文名 `.bat`，避免部分环境下中文路径解析异常。
 
 ## 作为 Skill 使用
 
